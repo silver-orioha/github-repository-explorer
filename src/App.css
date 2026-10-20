@@ -161,6 +161,60 @@ body {
 }
 
 
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.pagination button {
+  padding: 10px 16px;
+  border: 1px solid #d1d9e0;
+  border-radius: 8px;
+  background: white;
+  color: #1f2328;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #f3f4f6;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+.sort-control {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.sort-control label {
+  font-weight: 600;
+}
+
+.sort-control select {
+  padding: 10px 12px;
+  border: 1px solid #d1d9e0;
+  border-radius: 8px;
+  background: white;
+  font-size: 0.95rem;
+}
+
+.sort-control select:focus-visible {
+  outline: 3px solid #80b7ff;
+  outline-offset: 2px;
+}
 
 
 

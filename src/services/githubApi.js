@@ -1,12 +1,12 @@
 const GITHUB_API_URL = 'https://api.github.com'
 
-export async function searchRepositories(searchTerm, page = 1) {
+export async function searchRepositories(searchTerm, page = 1, sortBy = 'stars') {
   const params = new URLSearchParams({
     q: searchTerm,
-    sort: 'stars',
+    sort: 'sortBy',
     order: 'desc',
     page: String(page),
-    per_page: '10',
+    per_page: '12',
   })
 
   const response = await fetch(

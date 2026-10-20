@@ -6,6 +6,11 @@ import { searchRepositories } from './services/githubApi'
 function App() {
   const [searchTerm, setSearchTerm] = useState('')
   const [repositories, setRepositories] = useState([])
+  const [page, setPage] = useState(1)
+  const [totalCount, setTotalCount] = useState(0)
+
+  const [sortBy, setSortBy] = useState('stars')
+
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -15,18 +20,26 @@ function App() {
     if (!searchTerm.trim()) {
       setError('Please enter a search term.')
       setRepositories([])
+      setTotalCount(0)
       return
     }
 
+    setPage(1)
+    await fetchRepositories(searchTerm.trim(),1)
+  }
+
+  async function fetchRepositories(term, pageNumber) {
     setLoading(true)
     setError('')
-    setRepositories([])
 
     try {
-      const data = await searchRepositories(searchTerm.trim())
+      const data = await searchRepositories(term, pageNumber, sortBy)
       setRepositories(data.items)
+      setTotalCount(data.total_count)
     } catch (err) {
       setError(err.message || 'Something went wrong. Please try again.')
+      setRepositories([])
+      setTotalCount(0)
     } finally {
       setLoading(false)
     }
@@ -59,6 +72,26 @@ function App() {
             </button>
           </div>
         </form>
+  
+        <div className="sort-control">
+          <label htmlFor="sort-by">Sort repositories by</label>
+
+          <select
+            id="sort-by"
+            value={sortBy}
+            onChange={(event) => {
+              setSortBy(event.target.value)
+              setPage(1)
+
+              if (searchTerm.trim()) {
+                fetchRepositories(searchTerm.trim(), 1)
+              }
+            }}
+          >
+            <option value="stars">Most stars</option>
+            <option value="updated">Recently updated</option>
+          </select>
+        </div>
       </section>
 
       <section className="results-section" aria-live="polite">
@@ -111,6 +144,38 @@ function App() {
                 </small>
               </article>
             ))}
+          </div>
+        )}
+        
+        {!loading && repositories.length > 0 && (
+          <div className="pagination">
+            <button
+              type="button"
+              disabled={page === 1}
+              onClick={() => {
+                const previousPage = page - 1
+                setPage(previousPage)
+                fetchRepositories(searchTerm.trim(), previousPage)
+              }}
+            >
+              Previous
+            </button>
+
+            <span>
+              Page {page} of {Math.max(1, Math.ceil(Math.min(totalCount, 1000) / 10))}
+            </span>
+
+            <button
+              type="button"
+              disabled={page >= Math.ceil(Math.min(totalCount, 1000) / 10)}
+              onClick={() => {
+                const nextPage = page + 1
+                setPage(nextPage)
+                fetchRepositories(searchTerm.trim(), nextPage)
+              }}
+            >
+              Next
+            </button>
           </div>
         )}
       </section>
