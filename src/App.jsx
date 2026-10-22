@@ -2,9 +2,11 @@
 import { useState } from 'react'
 import './App.css'
 import { searchRepositories } from './services/githubApi'
-
+import RepositoryDetails
+ from './components/repositoryDetails'
 function App() {
   const [searchTerm, setSearchTerm] = useState('')
+  const [selectedRepository, setSelectedRepository] = useState(null)
   const [repositories, setRepositories] = useState([])
   const [page, setPage] = useState(1)
   const [totalCount, setTotalCount] = useState(0)
@@ -47,6 +49,14 @@ function App() {
 
   return (
     <main className="app">
+
+    {selectedRepository ? (
+    <RepositoryDetails
+      repository={selectedRepository}
+      onBack={() => setSelectedRepository(null)}
+    />
+  ) : (
+    <>
       <header className="app-header">
         <h1>GitHub Repository Explorer</h1>
         <p>Discover repositories and explore what developers are building.</p>
@@ -119,13 +129,13 @@ function App() {
                 </div>
 
                 <h3>
-                  <a
-                    href={repo.html_url}
-                    target="_blank"
-                    rel="noreferrer"
+                  <button
+                    type="button"
+                    className="repository-title-button"
+                    onClick={() => setSelectedRepository(repo)}
                   >
                     {repo.full_name}
-                  </a>
+                  </button>
                 </h3>
 
                 <p>
@@ -179,6 +189,8 @@ function App() {
           </div>
         )}
       </section>
+      </>
+)}
     </main>
   )
 }
