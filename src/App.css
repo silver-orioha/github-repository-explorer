@@ -93,7 +93,6 @@ body {
   color: #656d76;
 }
 
-
 .repository-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
@@ -160,7 +159,6 @@ body {
   color: #cf222e;
 }
 
-
 .pagination {
   display: flex;
   align-items: center;
@@ -189,7 +187,6 @@ body {
   cursor: not-allowed;
 }
 
-
 .sort-control {
   display: flex;
   align-items: center;
@@ -216,6 +213,121 @@ body {
   outline-offset: 2px;
 }
 
+.repository-title-button {
+  padding: 0;
+  border: none;
+  background: none;
+  color: #0969da;
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.repository-title-button:hover {
+  text-decoration: underline;
+}
+
+.details-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.back-button {
+  margin-bottom: 20px;
+  padding: 10px 14px;
+  border: 1px solid #d1d9e0;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+}
+
+.details-card {
+  padding: 28px;
+  border: 1px solid #d8dee4;
+  border-radius: 12px;
+  background: white;
+}
+
+.details-owner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #656d76;
+}
+
+.details-card h2 {
+  overflow-wrap: anywhere;
+}
+
+.details-card > p {
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.details-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 4px 20px;
+  margin: 24px 0;
+}
+
+.details-stats p {
+  line-height: 1.5;
+}
+
+.github-link {
+  display: inline-block;
+  color: #0969da;
+  font-weight: 600;
+}
+
+
+.contributors-section {
+  margin: 28px 0;
+}
+
+.contributors-list {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.contributors-list li,
+.contributors-list li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.contributors-list li {
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.contributors-list li a {
+  color: #0969da;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.contributors-list li a:hover {
+  text-decoration: underline;
+}
+
+.contributor-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.contributors-list li > span {
+  color: #656d76;
+  font-size: 0.9rem;
+}
 
 
 @media (max-width: 520px) {
@@ -233,5 +345,9 @@ body {
 
   .results-section {
     padding: 20px 14px;
+  }
+
+  .details-card {
+    padding: 20px 16px;
   }
 }
