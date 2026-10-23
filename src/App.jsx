@@ -99,10 +99,30 @@ function App() {
 
         {loading && <p>Loading repositories...</p>}
 
-        {error && <p className="error-message" role="alert">{error}</p>}
+        {error && (
+        <div className="error-container">
+          <p className="error-message" role="alert">
+            {error}
+          </p>
+
+          <button
+            type="button"
+            onClick={() =>
+              fetchRepositories(searchTerm.trim(), page)
+            }
+            disabled={loading}
+          >
+      {loading ? 'Retrying...' : 'Try again'}
+    </button>
+  </div>
+)}
 
         {!loading && !error && repositories.length === 0 && (
-          <p>Search for a topic to discover repositories.</p>
+          <p>
+            {searchTerm.trim()
+            ? 'No repositories found. Try a a different search term.'
+            : 'Search for a topic to discover repositories.'}
+          </p>
         )}
 
         {!loading && repositories.length > 0 && (
