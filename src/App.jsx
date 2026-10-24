@@ -3,6 +3,29 @@ import { useState } from 'react'
 import './App.css'
 import { searchRepositories } from './services/githubApi'
 
+function getTimeAgo(dateString) {
+  const seconds = Math.floor(
+    (Date.now() - new Date(dateString).getTime()) / 1000
+  )
+
+  if (seconds < 60) return 'just now'
+
+  const minutes = Math.floor(seconds / 60)
+  if (minutes < 60) return `${minutes} minute${minutes === 1 ? '' : 's'} ago`
+
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`
+
+  const days = Math.floor(hours / 24)
+  if (days < 30) return `${days} day${days === 1 ? '' : 's'} ago`
+
+  const months = Math.floor(days / 30)
+  if (months < 12) return `${months} month${months === 1 ? '' : 's'} ago`
+
+  const years = Math.floor(days / 365)
+  return `${years} year${years === 1 ? '' : 's'} ago`
+}
+
 function App() {
   const [searchTerm, setSearchTerm] = useState('')
   const [repositories, setRepositories] = useState([])
@@ -95,7 +118,13 @@ function App() {
       </section>
 
       <section className="results-section" aria-live="polite">
-        <h2>Search results</h2>
+        <h2>Search results
+          {!loading && searchTerm.trim() && (
+            <span className="results-count">
+              {' '}({totalCount.toLocaleString()} found)
+            </span>
+          )}
+        </h2>
 
         {loading && <p>Loading repositories...</p>}
 
@@ -112,10 +141,10 @@ function App() {
             }
             disabled={loading}
           >
-      {loading ? 'Retrying...' : 'Try again'}
-    </button>
-  </div>
-)}
+            {loading ? 'Retrying...' : 'Try again'}
+          </button>
+        </div>
+      )}
 
         {!loading && !error && repositories.length === 0 && (
           <p>
@@ -160,7 +189,7 @@ function App() {
                 </div>
 
                 <small>
-                  Last updated: {new Date(repo.updated_at).toLocaleDateString()}
+                  Updated {getTimeAgo(repo.updated_at)}
                 </small>
               </article>
             ))}
