@@ -23,3 +23,13 @@ export async function searchRepositories(searchTerm, page = 1, sortBy = 'stars')
 
   return response.json()
 }
+  export async function getRepositoryContributors(owner, repo) {
+  const response = await fetch(
+    `${GITHUB_API_URL}/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/contributors?per_page=10`
+  )
+
+   if (!response.ok) {
+    throw new Error('Unable to load repository contributors.')
+  }
+
+}
