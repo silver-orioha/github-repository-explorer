@@ -105,14 +105,40 @@ function App() {
       </section>
 
       <section className="results-section" aria-live="polite">
-        <h2>Search results</h2>
+        <h2>Search results
+          {!loading && searchTerm.trim() && (
+            <span className="results-count">
+              {' '}({totalCount.toLocaleString()} found)
+            </span>
+          )}
+        </h2>
 
         {loading && <p>Loading repositories...</p>}
 
-        {error && <p className="error-message" role="alert">{error}</p>}
+        {error && (
+        <div className="error-container">
+          <p className="error-message" role="alert">
+            {error}
+          </p>
+
+          <button
+            type="button"
+            onClick={() =>
+              fetchRepositories(searchTerm.trim(), page)
+            }
+            disabled={loading}
+          >
+            {loading ? 'Retrying...' : 'Try again'}
+          </button>
+        </div>
+      )}
 
         {!loading && !error && repositories.length === 0 && (
-          <p>Search for a topic to discover repositories.</p>
+          <p>
+            {searchTerm.trim()
+            ? 'No repositories found. Try a a different search term.'
+            : 'Search for a topic to discover repositories.'}
+          </p>
         )}
 
         {!loading && repositories.length > 0 && (
@@ -150,7 +176,7 @@ function App() {
                 </div>
 
                 <small>
-                  Last updated: {new Date(repo.updated_at).toLocaleDateString()}
+                  Updated {getTimeAgo(repo.updated_at)}
                 </small>
               </article>
             ))}
